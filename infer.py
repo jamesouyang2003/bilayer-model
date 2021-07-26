@@ -66,20 +66,22 @@ class InferenceWrapper(nn.Module):
                     pathlib.Path(self.args.init_experiment_dir) 
                         / 'checkpoints' 
                         / f'{self.args.init_which_epoch}_{net_name}.pth', 
-                    map_location='cpu'))
+                    map_location='cpu'),
+                    strict=False)
 
         for net_name in networks_to_train:
             if net_name not in init_networks and net_name in self.runner.nets.keys():
                 self.runner.nets[net_name].load_state_dict(torch.load(
                     checkpoints_dir 
                         / f'{self.args.which_epoch}_{net_name}.pth', 
-                    map_location='cpu'))
+                    map_location='cpu'),
+                    strict=False)
         
         # Remove spectral norm to improve the performance
         self.runner.apply(rn_utils.remove_spectral_norm)
 
         # Stickman/facemasks drawer
-        self.fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=True)
+        self.fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=True, device="cpu")
 
         self.net_seg = wrapper.SegmentationWrapper(self.args)
 

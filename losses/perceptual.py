@@ -62,7 +62,7 @@ class LossWrapper(nn.Module):
             
             elif framework_name == 'caffe':
                 self.nets.append(networks[net_name]())
-                self.nets[-1].load_state_dict(torch.load(weights_dir / f'{full_net_name}.pth'))
+                self.nets[-1].load_state_dict(torch.load(weights_dir / f'{full_net_name}.pth'), strict=False)
                 self.nets[-1] = self.nets[-1]
                 mean = torch.FloatTensor([103.939, 116.779, 123.680])[None, :, None, None] / 127.5 - 1
                 std  = torch.FloatTensor([     1.,      1.,      1.])[None, :, None, None] / 127.5

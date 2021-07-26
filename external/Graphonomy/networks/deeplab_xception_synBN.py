@@ -379,7 +379,7 @@ class Xception(nn.Module):
                 else:
                     model_dict[k] = v
         state_dict.update(model_dict)
-        self.load_state_dict(state_dict)
+        self.load_state_dict(state_dict, strict=False)
 
 class DeepLabv3_plus(nn.Module):
     def __init__(self, nInputChannels=3, n_classes=21, os=16, pretrained=False, _print=True):

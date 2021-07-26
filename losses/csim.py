@@ -135,7 +135,7 @@ class InsightFaceWrapper(nn.Module):
     def __init__(self, path_weights, num_layers=50, drop_ratio=0.6, mode='ir_se'):
         super(InsightFaceWrapper, self).__init__()
         self.model = Backbone(num_layers, drop_ratio, mode)
-        self.model.load_state_dict(torch.load(path_weights))
+        self.model.load_state_dict(torch.load(path_weights), strict=False)
         self.model.train(False)
 
     def forward(self, affine_matrix, image):
